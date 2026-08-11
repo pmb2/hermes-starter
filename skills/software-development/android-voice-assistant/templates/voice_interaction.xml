@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Metadata for the VoiceInteractionService.
+  Declares which services handle hotword detection, visual query detection,
+  and recognition. Referenced from AndroidManifest.xml via:
+    <meta-data android:name="android.voice_interaction"
+               android:resource="@xml/voice_interaction" />
+-->
+<voice-interaction-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sessionService=""
+    android:hotwordDetectionService=".CustomHotwordDetectionService"
+    android:visualQueryDetectionService=".CustomVisualQueryDetectionService"
+    android:recognitionService=""
+    android:settingsActivity=""
+    android:supportsAssist="true"
+    android:supportsLocalInteraction="true" />

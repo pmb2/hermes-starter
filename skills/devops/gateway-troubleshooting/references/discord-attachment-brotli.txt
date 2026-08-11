@@ -1,0 +1,75 @@
+Discord Attachment Brotli Error — Debugging Reference
+======================================================
+
+Symptom
+-------
+Discord file attachments (message.txt) stopped reaching the agent.
+User attaches a .txt file, but the agent sees only the user's text
+message with no attachment content injected.
+
+Gateway log shows:
+  WARNING ... [Discord] Authenticated attachment read failed for message.txt: 400, message:
+    Can not decode content-encoding: br
+  WARNING ... [Discord] Failed to cache document message.txt: 400, message:
+
+Previously worked (May 29 - June 10):
+  INFO ... [Discord] Cached user document: C:\...\doc_xxx_message.txt
+  INFO ... inbound message: ... msg='[Content of message.txt]: <file content>'
+  
+First failure: June 12, 2026
+
+Root Cause
+----------
+Discord's CDN started serving attachment downloads with Brotli (br)
+content-encoding. aiohttp (used by discord.py) needs either:
+  - brotli (C extension) — often broken on Windows, pure Python stub
+  - brotlicffi (CFFI-based) — the working fix
+  
+The existing `brotli` package was installed but without its C extension:
+  from brotli._brotli import compress, decompress  -> ImportError
+  # Pure Python fallback only
+
+aiohttp couldn't discover the Brotli decoder, so attachment downloads
+failed at the decompression step.
+
+Fix
+---
+Install brotlicffi:
+  pip install brotlicffi
+
+Verify aiohttp can now use it:
+  python -c "from aiohttp.compression_utils import HAS_BROTLI; print(HAS_BROTLI)"
+  # Should print: True
+
+Also set Discord attachment config (belt-and-suspenders):
+  hermes config set discord.allow_any_attachment true
+  hermes config set discord.max_attachment_bytes 0
+
+Then restart the gateway from an EXTERNAL shell (see SKILL.md).
+
+Package Info
+------------
+- brotlicffi installed to: site-packages/brotlicffi/
+- Venv shares access via PYTHONPATH
+- Runtime: aiohttp.compression_utils.BrotliDecompressor
+- Already installed: aiohttp 3.13.5, discord.py 2.7.1
+
+Gateway Restart Constraint
+--------------------------
+Any hermes gateway command (stop/start/restart) run from inside a
+gateway session is blocked:
+  "Refusing to restart/stop the gateway from inside the gateway process."
+  
+Fix: open a separate terminal (not in Discord/Telegram/Slack) and
+run the command there.
+
+Interrupted Update Side-Effect
+-------------------------------
+Every `hermes` CLI command (even config set) triggers the interrupted
+update retry. The Pillow upgrade fails because _imaging.pyd is locked
+by the running gateway. This is cosmetic and doesn't block config
+changes — the config set commands succeed, the update just retries
+and fails each time.
+
+Fix: stop gateway first, then `hermes update` from external shell,
+then restart gateway.

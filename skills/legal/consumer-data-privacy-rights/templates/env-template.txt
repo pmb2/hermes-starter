@@ -1,0 +1,6 @@
+# CCPA Pipeline — Gmail App Password Setup
+# Copy to .env in the working directory and fill in your password
+# Get app password at: https://myaccount.google.com/apppasswords
+
+EMAIL_ADDRESS=<your-email>@gmail.com
+EMAIL_PASSWORD=YOUR_16_CHAR_APP_PASSWORD_HERE

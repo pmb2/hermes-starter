@@ -1,0 +1,37 @@
+# Host-mode Caddyfile — runs Caddy on the HOST, reverse proxies to Docker container
+# Replace DOMAIN.EXAMPLE with your actual domain
+# Replace 127.0.0.1:PORT with your app's host port
+
+DOMAIN.EXAMPLE {
+    # Proxy to app running on host (from Docker port mapping)
+    reverse_proxy 127.0.0.1:3000
+
+    # Security headers
+    header {
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    # Static asset caching
+    @static {
+        path *.ico *.css *.js *.webp *.png *.jpg *.svg *.woff2 *.woff
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # Let's Encrypt auto-TLS
+    tls {
+        protocols tls1.2 tls1.3
+    }
+}
+
+# Redirect www to non-www (optional)
+www.DOMAIN.EXAMPLE {
+    redir https://DOMAIN.EXAMPLE{uri} permanent
+}
+
+# Health check endpoint (optional, but handy for uptime monitoring)
+# health.DOMAIN.EXAMPLE {
+#     reverse_proxy 127.0.0.1:3000/health
+# }

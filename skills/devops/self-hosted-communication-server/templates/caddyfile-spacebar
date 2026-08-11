@@ -1,0 +1,30 @@
+# Caddyfile template for exposing Spacebar + Fermi
+# Place in Caddy container's config bind mount
+# Adjust domain, Docker gateway IP as needed
+
+{
+  email admin@your.domain
+}
+
+your.domain {
+  encode gzip
+
+  # Well-known auto-discovery for Fermi
+  @wellknown path /.well-known/spacebar*
+  handle @wellknown {
+    header Content-Type application/json
+    respond {"api":"https://your.domain/api/v9"}
+  }
+
+  # API + WebSocket — handle preserves full path
+  # 🚨 Do NOT use handle_path — it strips the /api prefix
+  @api path /api/*
+  handle @api {
+    reverse_proxy 172.17.0.1:3001
+  }
+
+  # Fermi UI via SSH reverse tunnel
+  handle {
+    reverse_proxy 172.17.0.1:8081
+  }
+}

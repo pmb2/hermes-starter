@@ -1,0 +1,12 @@
+{
+  "general": "407452ff-bdbd-4907-9e7c-79c5e9aaa1f2",
+  "admin": "a90cc30c-9f51-4d0e-b966-5c083e6685cf",
+  "dev": "a63c262f-f3f7-4f3c-9ec2-19c95f74ac66",
+  "engineering": "39f58c42-6bdb-4d5b-9177-0091110db87c",
+  "intel": "bf52aa0e-e476-4614-a890-b999ec0951e4",
+  "research": "b4b1c233-826b-4511-92cc-e40d5d35f2d1",
+  "ops": "bb1b1695-34cd-41ca-95e2-ac966453f737",
+  "security": "6efaab82-4d1c-4de6-9d34-5ace7fcedd13",
+  "creative": "e1092125-5122-4e8a-b075-9def39f4ad41",
+  "design": "31a6ae96-2f52-4fe9-8c77-102dc210e94c"
+}

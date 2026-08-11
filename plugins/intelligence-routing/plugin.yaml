@@ -1,0 +1,8 @@
+name: intelligence-routing
+version: 1.0.0
+description: >-
+  Dual-tier model routing for Hermes gateway. Default workhorse (DeepSeek class
+  via OmniRoute). Prefix --h (or --hard) sticks the current chat/thread on
+  YunWu gpt-5.6-sol; --s (or --soft) returns to workhorse. Silent (no chat
+  notice). Auto-escalates hard tasks by heuristic when no sticky override.
+author: the operator / Hermes

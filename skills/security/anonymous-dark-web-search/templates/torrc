@@ -1,0 +1,10 @@
+# Minimal Tor config for anonymous SOCKS5 proxy
+# All search traffic routes through this proxy
+SOCKSPort 127.0.0.1:9050
+ControlPort 127.0.0.1:9051
+DataDirectory ~/deep-spider/tor_data
+Log notice file ~/deep-spider/tor.log
+CookieAuthentication 1
+
+# DO NOT add DNSPort — port 5353 conflicts on Windows and isn't needed
+# when using socks5h:// proxy scheme (DNS resolves through Tor automatically)

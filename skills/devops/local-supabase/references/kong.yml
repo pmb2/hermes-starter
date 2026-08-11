@@ -1,0 +1,65 @@
+# Kong declarative config for local Supabase (no GoTrue)
+# Routes: /rest/v1/ -> PostgREST, /pg/ -> meta, / -> Studio
+_format_version: "1.1"
+
+consumers:
+  - username: anon
+    keyauth_credentials:
+      - key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+  - username: service_role
+    keyauth_credentials:
+      - key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJZDJ1M3GcP3E2cWGMJuDk7KQ2G3I0
+
+plugins:
+  - name: cors
+    config:
+      origins:
+        - "*"
+      headers:
+        - Accept
+        - Authorization
+        - Content-Type
+        - X-Client-Info
+        - X-Supabase-Auth
+        - apikey
+      methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      exposed_headers:
+        - Content-Range
+        - X-Total-Count
+        - X-Request-Id
+      credentials: true
+      max_age: 3600
+
+services:
+  - name: rest-v1
+    url: http://postgrest:3000
+    routes:
+      - name: rest-v1-route
+        paths:
+          - /rest/v1/
+    plugins:
+      - name: key-auth
+        config:
+          key_names:
+            - apikey
+          hide_credentials: true
+
+  - name: meta
+    url: http://meta:8080
+    routes:
+      - name: meta-route
+        paths:
+          - /pg/
+
+  - name: studio
+    url: http://studio:3000
+    routes:
+      - name: studio-route
+        paths:
+          - /

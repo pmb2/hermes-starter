@@ -1,0 +1,94 @@
+# Agent Model Override Manifest
+#
+# Agents listed here get a different model than the default uniform config.
+# Agents NOT listed here get the default agent-workhorse-combo.
+#
+# Add overrides by uncommenting and editing. Format:
+#   <agent-slug>:
+#     default: <model-id>       # model ID as known to OmniRoute
+#     provider: custom:omniroute # always omniroute
+#
+# See docs/plans/buzz-migration-architecture-v2.md for the full routing design.
+
+# === DEFAULT (applied to all agents not listed below) ===
+# combo: agent-workhorse-combo
+# chain: oc/deepseek-v4-flash-free → opencode-go/deepseek-v4-flash → yunwu/deepseek-v4-flash → openrouter/gemma
+
+overrides:
+  # --- Development Team ---
+  # dev-lead:
+  #   default: yunwu/deepseek-v4-pro
+  #   provider: custom:omniroute
+  #   reason: "Code generation needs higher reasoning depth"
+
+  # qa-lead:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Test analysis needs consistency, not free-tier variance"
+
+  # integration-lead:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "MCP protocol work needs reliable model"
+
+  # --- Intelligence Team ---
+  # nova:
+  #   default: yunwu/deepseek-v4-pro
+  #   provider: custom:omniroute
+  #   reason: "Deep research requires depth"
+
+  # oracle:  # intelligence-lead
+  #   default: yunwu/deepseek-v4-pro
+  #   provider: custom:omniroute
+  #   reason: "Cross-domain analysis needs high reasoning"
+
+  # creative-lead:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Creative work benefits from consistent model"
+
+  # --- Finance Team ---
+  # people:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Consensus evaluation needs reliability"
+
+  # --- Revenue Team ---
+  # growth-lead:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Revenue analysis needs consistency"
+
+  # --- Cyber Team ---
+  # phantom:  # threat-lead
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Security analysis needs reliable model"
+
+  # --- Operations Team ---
+  # automation-lead:
+  #   default: yunwu/deepseek-v4-flash
+  #   provider: custom:omniroute
+  #   reason: "Self-healing playbooks need consistency"
+
+  # --- Docs / Low-Complexity (stay free forever) ---
+  # history-lead:
+  #   default: oc/deepseek-v4-flash-free
+  #   provider: custom:omniroute
+  #   reason: "Documentation is simple — keep it free"
+
+  # docs-lead:
+  #   default: oc/deepseek-v4-flash-free
+  #   provider: custom:omniroute
+  #   reason: "Docs/changelogs — keep it free"
+
+  # --- PULSE TEAM (monitoring, free tier is fine) ---
+  # security-lead:
+  #   default: oc/deepseek-v4-flash-free
+  #   provider: custom:omniroute
+  #   reason: "Health checks are simple — keep it free"
+
+  # pulse:
+  #   default: oc/deepseek-v4-flash-free
+  #   provider: custom:omniroute
+  #   reason: "Metric reporting is simple — keep it free"

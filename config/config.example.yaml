@@ -1,0 +1,1212 @@
+model:
+  api_mode: chat_completions
+  base_url: http://localhost:20128/v1
+  default: hermes/workhorse
+  provider: custom:omniroute
+  api_key: omniroute-local
+fallback_providers:
+  - provider: deepseek
+    model: deepseek-v4-flash
+    base_url: https://api.deepseek.com/v1
+    api_key: ${DEEPSEEK_API_KEY}
+  - provider: custom:omniroute
+    model: hermes/powerful
+    base_url: http://localhost:20128/v1
+    api_key: sk-hermeslocal00001-5b3c0a-1eb95661
+    description: Emergency tier 2 - OmniRoute powerful chain (YunWu to DeepSeek to Grok)
+  - provider: custom
+    model: grok-4.20-multi-agent-0309
+    base_url: http://127.0.0.1:8317/v1
+    api_key: omniroute-local
+    description: Emergency tier 3 - CLIProxyAPI local pool (Grok)
+  - provider: custom
+    model: gemini-3-flash
+    base_url: http://127.0.0.1:8317/v1
+    api_key: omniroute-local
+    description: Emergency tier 4 - CLIProxyAPI local pool (Gemini)
+  - provider: custom
+    model: gemma4:12b
+    base_url: http://127.0.0.1:11434/v1
+    api_key: ollama
+    description: Emergency tier 5 - local Ollama (absolute last resort)
+toolsets:
+  - hermes-cli
+max_live_sessions: 16
+agent:
+  max_turns: 140
+  gateway_timeout: 1800
+  restart_drain_timeout: 180
+  api_max_retries: 3
+  service_tier: normal
+  tool_use_enforcement: auto
+  task_completion_guidance: true
+  parallel_tool_call_guidance: true
+  environment_probe: true
+  environment_hint: ''
+  coding_context: auto
+  verify_on_stop: false
+  gateway_timeout_warning: 900
+  clarify_timeout: 600
+  gateway_notify_interval: 180
+  gateway_auto_continue_freshness: 3600
+  image_input_mode: auto
+  disabled_toolsets: []
+  reasoning_effort: medium
+  verbose: false
+  system_prompt: ''
+terminal:
+  backend: local
+  modal_mode: auto
+  cwd: .
+  timeout: 180
+  daemon_term_grace_seconds: 2.0
+  env_passthrough: []
+  home_mode: auto
+  shell_init_files: []
+  auto_source_bashrc: true
+  docker_image: nikolaik/python-nodejs:python3.11-nodejs20
+  docker_forward_env: []
+  singularity_image: docker://nikolaik/python-nodejs:python3.11-nodejs20
+  modal_image: nikolaik/python-nodejs:python3.11-nodejs20
+  daytona_image: nikolaik/python-nodejs:python3.11-nodejs20
+  vercel_runtime: node24
+  container_cpu: 1
+  container_memory: 5120
+  container_disk: 51200
+  container_persistent: true
+  docker_volumes: []
+  docker_mount_cwd_to_workspace: false
+  docker_extra_args: []
+  docker_run_as_host_user: false
+  persistent_shell: true
+web:
+  backend: ''
+  search_backend: ''
+  extract_backend: ''
+browser:
+  inactivity_timeout: 120
+  command_timeout: 30
+  record_sessions: false
+  allow_private_urls: false
+  engine: auto
+  auto_local_for_private_urls: true
+  cdp_url: ''
+  dialog_policy: must_respond
+  dialog_timeout_s: 300
+  camofox:
+    managed_persistence: false
+    user_id: ''
+    session_key: ''
+    adopt_existing_tab: false
+    rewrite_loopback_urls: false
+    loopback_host_alias: host.docker.internal
+  cloud_provider: camofox
+  use_gateway: false
+checkpoints:
+  enabled: false
+  max_snapshots: 20
+  max_total_size_mb: 500
+  max_file_size_mb: 10
+  auto_prune: true
+  retention_days: 7
+  min_interval_hours: 24
+  delete_orphans: true
+file_read_max_chars: 100000
+mcp_discovery_timeout: 1.5
+tool_output:
+  max_bytes: 50000
+  max_lines: 2000
+  max_line_length: 2000
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: false
+  warn_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2
+  hard_stop_after:
+    exact_failure: 5
+    same_tool_failure: 8
+    idempotent_no_progress: 5
+compression:
+  enabled: true
+  threshold: 0.66
+  target_ratio: 0.2
+  protect_last_n: 20
+  hygiene_hard_message_limit: 400
+  protect_first_n: 3
+  abort_on_summary_failure: false
+  codex_gpt55_autoraise: true
+  in_place: true
+prompt_caching:
+  cache_ttl: 5m
+openrouter:
+  response_cache: true
+  response_cache_ttl: 300
+  min_coding_score: 0.65
+bedrock:
+  region: ''
+  discovery:
+    enabled: true
+    provider_filter: []
+    refresh_interval: 3600
+  guardrail:
+    guardrail_identifier: ''
+    guardrail_version: ''
+    stream_processing_mode: async
+    trace: disabled
+auxiliary:
+  vision:
+    provider: openai
+    model: gemma4:12b
+    base_url: http://127.0.0.1:11434/v1
+    api_key: ollama
+    timeout: 120
+    download_timeout: 30
+  web_extract:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 360
+  compression:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 120
+  skills_hub:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+  approval:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+  mcp:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+  title_generation:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+    language: ''
+  tts_audio_tags:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+  triage_specifier:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 120
+  kanban_decomposer:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 180
+  profile_describer:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 60
+  curator:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 600
+  monitor:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 60
+  background_review:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 120
+  moa_reference:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 600
+  moa_aggregator:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 600
+  session_search:
+    api_key: ''
+    base_url: ''
+    extra_body: {}
+    max_concurrency: 3
+    model: ''
+    provider: auto
+    timeout: 30
+display:
+  compact: false
+  personality: kawaii
+  resume_display: full
+  resume_exchanges: 10
+  resume_max_user_chars: 300
+  resume_max_assistant_chars: 200
+  resume_max_assistant_lines: 3
+  resume_skip_tool_only: true
+  busy_input_mode: queue
+  interface: cli
+  tui_auto_resume_recent: false
+  tui_agents_nudge: true
+  bell_on_complete: false
+  show_reasoning: false
+  reasoning_full: false
+  memory_notifications: 'on'
+  streaming: true
+  timestamps: false
+  final_response_markdown: strip
+  persistent_output: true
+  persistent_output_max_lines: 200
+  persist_prompts: true
+  inline_diffs: true
+  file_mutation_verifier: true
+  credits_notices: true
+  turn_completion_explainer: true
+  show_cost: false
+  skin: default
+  language: en
+  tui_status_indicator: kaomoji
+  cli_refresh_interval: 1.0
+  user_message_preview:
+    first_lines: 2
+    last_lines: 2
+  interim_assistant_messages: true
+  tool_progress_command: false
+  tool_preview_length: 0
+  tool_progress_grouping: accumulate
+  reasoning_style: code
+  ephemeral_system_ttl: 0
+  platforms:
+    telegram:
+      streaming: true
+    discord:
+      streaming: true
+  runtime_footer:
+    enabled: false
+    fields:
+      - model
+      - context_pct
+      - cwd
+  copy_shortcut: auto
+  pet:
+    enabled: false
+    slug: ''
+    render_mode: auto
+    scale: 0.33
+    unicode_cols: 0
+dashboard:
+  theme: default
+  show_token_analytics: false
+  oauth:
+    client_id: ''
+    portal_url: ''
+  basic_auth:
+    username: ''
+    password_hash: ''
+    password: ''
+    secret: ''
+    session_ttl_seconds: 0
+  drain_auth:
+    scope: drain
+    min_secret_chars: 43
+  public_url: ''
+privacy:
+  redact_pii: false
+tts:
+  provider: edge
+  edge:
+    voice: en-US-AriaNeural
+  elevenlabs:
+    voice_id: pNInz6obpgDQGcFmaJgB
+    model_id: eleven_multilingual_v2
+  openai:
+    model: gpt-4o-mini-tts
+    voice: alloy
+  gemini:
+    model: gemini-2.5-flash-preview-tts
+    voice: Kore
+    audio_tags: false
+    persona_prompt_file: ''
+  xai:
+    voice_id: eve
+    language: en
+    sample_rate: 24000
+    bit_rate: 128000
+  mistral:
+    model: voxtral-mini-tts-2603
+    voice_id: c69964a6-ab8b-4f8a-9465-ec0925096ec8
+  neutts:
+    ref_audio: ''
+    ref_text: ''
+    model: neuphonic/neutts-air-q4-gguf
+    device: cpu
+  piper:
+    voice: en_US-lessac-medium
+stt:
+  enabled: true
+  provider: local
+  local:
+    model: base
+    language: ''
+  openai:
+    model: whisper-1
+  mistral:
+    model: voxtral-mini-latest
+  elevenlabs:
+    model_id: scribe_v2
+    language_code: ''
+    tag_audio_events: false
+    diarize: false
+voice:
+  record_key: ctrl+b
+  max_recording_seconds: 120
+  auto_tts: true
+  beep_enabled: true
+  silence_threshold: 200
+  silence_duration: 3.0
+human_delay:
+  mode: 'off'
+  min_ms: 800
+  max_ms: 2500
+context:
+  engine: compressor
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  write_approval: false
+  memory_char_limit: 2200
+  user_char_limit: 1375
+  provider: mempalace
+delegation:
+  model: hermes/workhorse
+  provider: custom:omniroute
+  base_url: http://localhost:20128/v1
+  api_key: omniroute-local
+  api_mode: chat_completions
+  inherit_mcp_toolsets: true
+  max_iterations: 50
+  child_timeout_seconds: 600
+  reasoning_effort: medium
+  max_concurrent_children: 3
+  max_spawn_depth: 1
+  orchestrator_enabled: true
+  subagent_auto_approve: true
+prefill_messages_file: prefill.json
+goals:
+  max_turns: 20
+moa:
+  default_preset: default
+  active_preset: ''
+  presets:
+    default:
+      reference_models:
+        - model: gpt-5.5
+          provider: openai-codex
+        - model: deepseek/deepseek-v4-pro
+          provider: openrouter
+      aggregator:
+        provider: openrouter
+        model: anthropic/claude-opus-4.8
+      max_tokens: 4096
+      enabled: true
+      reference_temperature: 0.6
+      aggregator_temperature: 0.4
+skills:
+  external_dirs:
+    - ${USER_HOME}/Documents/github/hermes-config/skills
+  template_vars: true
+  inline_shell: false
+  inline_shell_timeout: 10
+  guard_agent_created: false
+  write_approval: false
+curator:
+  enabled: true
+  interval_hours: 168
+  min_idle_hours: 2
+  stale_after_days: 30
+  archive_after_days: 90
+  consolidate: false
+  prune_builtins: true
+  backup:
+    enabled: true
+    keep: 5
+timezone: America/New_York
+slack:
+  require_mention: true
+  free_response_channels: ''
+  allowed_channels: ''
+discord:
+  require_mention: true
+  free_response_channels: ''
+  allowed_channels: ''
+  auto_thread: true
+  thread_require_mention: false
+  history_backfill: true
+  history_backfill_limit: 50
+  reactions: true
+  channel_prompts:
+    '<discord-channel-id-1>': 'You are Dev, the Development Lead.\n\n      Plan, coordinate and review engineering work in this channel. Report\n      status and blockers clearly. Home: #dev.\n\n      '
+    '<discord-channel-id-2>': 'You are Intel, the Intelligence Lead.\n\n      Monitor sources, digest findings, cross-reference. Include URLs.\n      Report to the Chief of Staff. Home: #pulse-feed.\n\n      '
+    '<discord-channel-id-3>': 'You are Ops, the Infrastructure Lead.\n\n      System health, containers, updates. Report to the Chief of Staff.\n      Home: #infrastructure.\n\n      '
+  max_attachment_bytes: 0
+  voice_fx:
+    enabled: false
+    ambient_enabled: true
+    ambient_path: ''
+    ambient_gain: 0.18
+    duck_gain: 0.06
+    speech_gain: 1.0
+    ack_enabled: true
+    ack_phrases:
+      - Let me look into that.
+      - One moment.
+      - Checking on that now.
+      - Give me a sec.
+      - On it.
+    ambient_enabient_gain: 0.18
+telegram:
+  reactions: false
+  allowed_chats: ''
+  extra:
+    rich_messages: false
+    rich_drafts: false
+mattermost:
+  require_mention: true
+  free_response_channels: ''
+  allowed_channels: ''
+matrix:
+  require_mention: true
+  free_response_rooms: ''
+  allowed_rooms: ''
+approvals:
+  mode: false
+  timeout: 60
+  cron_mode: deny
+  mcp_reload_confirm: true
+  destructive_slash_confirm: true
+command_allowlist:
+  - script execution via heredoc
+  - delete in root path
+  - shell command via -c/-lc flag
+  - script execution via -e/-c flag
+hooks_auto_accept: false
+security:
+  allow_private_urls: false
+  redact_secrets: false
+  tirith_enabled: true
+  tirith_path: tirith
+  tirith_timeout: 5
+  tirith_fail_open: true
+  website_blocklist:
+    enabled: false
+    domains: []
+    shared_files: []
+  acked_advisories: []
+  allow_lazy_installs: true
+cron:
+  provider: ''
+  chronos:
+    portal_url: https://portal.nousresearch.com
+    callback_url: ''
+    expected_audience: ''
+    nas_jwks_url: ''
+  wrap_response: true
+  mirror_delivery: false
+  output_retention: 50
+kanban:
+  dispatch_in_gateway: true
+  dispatch_interval_seconds: 60
+  failure_limit: 2
+  worker_log_rotate_bytes: 2097152
+  worker_log_backup_count: 1
+  orchestrator_profile: ''
+  default_assignee: ''
+  auto_decompose: true
+  auto_decompose_per_tick: 3
+  dispatch_stale_timeout_seconds: 14400
+code_execution:
+  mode: project
+tools:
+  tool_search:
+    enabled: auto
+    threshold_pct: 10
+    search_default_limit: 5
+    max_search_limit: 20
+logging:
+  level: INFO
+  max_size_mb: 5
+  backup_count: 3
+  memory_monitor:
+    enabled: true
+    interval_seconds: 300
+model_catalog:
+  enabled: true
+  url: https://hermes-agent.nousresearch.com/docs/api/model-catalog.json
+  ttl_hours: 1
+network:
+  force_ipv4: false
+gateway:
+  scale_to_zero:
+    idle_timeout_minutes: 5
+  message_timestamps:
+    enabled: false
+  max_inbound_media_bytes: 134217728
+  strict: false
+  media_delivery_allow_dirs: []
+  trust_recent_files: true
+  trust_recent_files_seconds: 600
+  api_server:
+    max_concurrent_runs: 10
+  default_reset_policy:
+    mode: idle
+    idle_minutes: 20160
+    notify: false
+streaming:
+  enabled: false
+  transport: auto
+  edit_interval: 0.8
+  buffer_threshold: 24
+  cursor: ' ▉'
+  fresh_final_after_seconds: 60.0
+sessions:
+  auto_prune: false
+  retention_days: 90
+  vacuum_after_prune: true
+  min_interval_hours: 24
+  write_json_snapshots: false
+onboarding:
+  seen:
+    busy_input_prompt: true
+    openclaw_residue_cleanup: true
+    tool_progress_prompt: true
+    profile_build_offered: true
+  profile_build: ask
+updates:
+  pre_update_backup: false
+  backup_keep: 5
+  non_interactive_local_changes: stash
+lsp:
+  enabled: true
+  wait_mode: document
+  wait_timeout: 5.0
+  install_strategy: auto
+x_search:
+  model: grok-4.20-reasoning
+  timeout_seconds: 180
+  retries: 2
+secrets:
+  bitwarden:
+    enabled: false
+    access_token_env: BWS_ACCESS_TOKEN
+    project_id: ''
+    cache_ttl_seconds: 300
+    override_existing: true
+    auto_install: true
+    server_url: ''
+paste_collapse_threshold: 5
+paste_collapse_threshold_fallback: 5
+paste_collapse_char_threshold: 2000
+computer_use:
+  cua_telemetry: false
+_config_version: 33
+image_gen:
+  provider: openai
+  openai:
+    model: gpt-image-2-medium
+custom_providers:
+  - name: omniroute
+    base_url: http://localhost:20128/v1
+    api_key: omniroute-local
+    api_mode: chat_completions
+    models:
+      - auto/best-coding
+      - auto/best-reasoning
+      - auto/best-fast
+      - auto/best-vision
+      - auto/best-chat
+      - auto/best-coding-fast
+      - auto/pro-coding
+      - auto/pro-reasoning
+      - auto/pro-vision
+      - auto/pro-chat
+      - auto/pro-fast
+      - auto/coding
+      - auto/fast
+      - auto/chat
+      - auto/cheap
+      - auto/offline
+      - auto/smart
+      - auto/claude-opus
+      - auto/claude-sonnet
+      - auto/best-free
+      - auto/best-chaos
+      - gpt-5.6-sol
+      - gpt-5.6-sol-max
+      - yunwu/gpt-5.6-sol
+      - cliproxyapi/grok-4.5
+      - grok/best-chat
+      - auto/chaos
+      - auto/coding:fast
+      - auto/coding:cheap
+      - auto/coding:free
+      - auto/coding:pro
+      - auto/coding:reliable
+      - auto/reasoning
+      - auto/reasoning:pro
+      - auto/vision
+      - auto/multimodal
+      - auto/glm
+      - auto/minimax
+      - auto/mimo
+      - auto/zai
+      - auto/gemma
+      - auto/llama
+      - auto/gemini
+      - ds/deepseek-v4-pro
+      - deepseek/deepseek-v4-pro
+      - ds/deepseek-v4-flash
+      - deepseek/deepseek-v4-flash
+      - pepper/pepper-1
+      - ddgw/gpt-4o-mini
+      - ddgw/gpt-5-mini
+      - ddgw/claude-3-5-haiku-20241022
+      - ddgw/llama-4-scout
+      - ddgw/mistral-small-2501
+      - ddgw/o3-mini
+      - felo/felo-chat
+      - felo/felo-search
+      - felo/felo-scholar
+      - felo/felo-social
+      - felo/felo-document
+      - aug/sonnet4.6
+      - aug/fable-5
+      - aug/haiku4.5
+      - aug/sonnet4.5
+      - aug/sonnet4.6-500k
+      - aug/sonnet5-high
+      - aug/sonnet5-500k
+      - aug/opus4.5
+      - aug/opus4.6
+      - aug/opus4.6-500k
+      - aug/opus4.7
+      - aug/opus4.7-500k
+      - aug/opus4.8
+      - aug/gemini-3.1-pro-preview
+      - aug/gpt5
+      - aug/gpt5.1
+      - aug/gpt5.2
+      - aug/gpt5.4
+      - aug/gpt5.4-mini
+      - aug/gpt5.5
+      - aug/gpt5.6-luna
+      - aug/gpt5.6-sol
+      - aug/gpt5.6-terra
+      - aug/glm-5.2
+      - aug/kimi-k2.6
+      - aug/kimi-k2.7
+      - aug/prism-a
+      - aug/prism-b
+      - opencode-go/glm-5.2
+      - opencode-go/glm-5.2-high
+      - opencode-go/glm-5.2-max
+      - opencode-go/glm-5.1
+      - opencode-go/glm-5
+      - opencode-go/kimi-k2.7-code
+      - opencode-go/kimi-k2.6
+      - opencode-go/kimi-k2.5
+      - opencode-go/mimo-v2.5-pro
+      - opencode-go/mimo-v2.5
+      - opencode-go/mimo-v2.5-high
+      - opencode-go/mimo-v2.5-max
+      - opencode-go/minimax-m3
+      - opencode-go/minimax-m2.7
+      - opencode-go/minimax-m2.5
+      - opencode-go/qwen3.7-max
+      - opencode-go/qwen3.6-plus
+      - opencode-go/qwen3.5-plus
+      - opencode-go/hy3-preview
+      - opencode-go/deepseek-v4-pro
+      - opencode-go/deepseek-v4-pro-low
+      - opencode-go/deepseek-v4-pro-medium
+      - opencode-go/deepseek-v4-pro-high
+      - opencode-go/deepseek-v4-pro-max
+      - opencode-go/deepseek-v4-flash
+      - oc/big-pickle
+      - oc/deepseek-v4-flash-free
+      - oc/mimo-v2.5-free
+      - oc/hy3-free
+      - oc/nemotron-3-ultra-free
+      - oc/north-mini-code-free
+      - tllm/GPT_5_4
+      - tllm/GPT_5_3
+      - tllm/GPT_5_2
+      - tllm/GPT_5_1
+      - tllm/GPT_5
+      - tllm/GPT_o4_mini
+      - tllm/GPT_o3_mini
+      - tllm/gemini_3_pro
+      - tllm/gemini_2_5_pro
+      - tllm/gemini_2_0_flash
+      - tllm/gemini_1_5_flash
+      - tllm/CLAUDE_4_6_OPUS
+      - tllm/CLAUDE_4_6_SONNET
+      - tllm/CLAUDE_4_5_HAIKU
+      - tllm/openrouter_gpt_4_o
+      - tllm/openrouter_gpt_4_o_mini
+      - tllm/openrouter_grok_4
+      - tllm/together_deepseek_v3
+      - tllm/openrouter_deepseek_r1
+      - tllm/sonar-pro
+      - tllm/GPT_4o
+      - tllm/claude_opus_4
+      - tllm/claude_sonnet_4
+      - tllm/claude_haiku_3_5
+      - tllm/deepseek_v4
+      - tllm/gemini_3_flash
+      - veo-free/veo
+      - veo-free/seedance
+      - mcode/mimo-auto
+      - veoaifree-web/veo
+      - veo-free/veo
+      - veoaifree-web/seedance
+      - veo-free/seedance
+api_server:
+  extra:
+    cors_origins: '*'
+    host: 0.0.0.0
+mcp_servers:
+  a2asearch-mcp:
+    args:
+      - --stdio
+    command: a2asearch-mcp
+    timeout: 120
+  agent-replay:
+#     enabled: false
+#     args:
+#       - -m
+#       - agent_replay.mcp_server
+#     command: python
+#     timeout: 120
+  ai-scientist:
+#     enabled: false
+#     args:
+#       - ${MY_REPOS}/Documents/github/AI-Scientist/hermes_mcp_server.py
+#       - --stdio
+#     command: ${MY_REPOS}/Documents/github/AI-Scientist/venv/Scripts/python.exe
+#     env:
+#       AI_SCIENTIST_DIR: ${MY_REPOS}/Documents/github/AI-Scientist
+#       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+#       PATH: ${USER_HOME}/AppData/Local/Programs/MiKTeX/miktex/bin/x64;${PATH}
+#     timeout: 600
+#     workdir: ${MY_REPOS}/Documents/github/AI-Scientist
+  bizdev-agent:
+#     args:
+#       - ${MY_REPOS}/Documents/github/auto-resume/bizdev-agent/mcp_server.py
+#     command: ${MY_REPOS}/Documents/github/auto-resume/bizdev-agent/.venv/Scripts/python.exe
+#     env:
+#       PYTHONPATH: ""
+#       PYTHONNOUSERSITE: "1"
+#       DATABASE_URL: sqlite+aiosqlite:///./dev-job-agent.db
+#       GMAIL_SENDER_EMAIL: <your-email>@gmail.com
+#       GMAIL_SENDER_PASSWORD: ${GMAIL_APP_PASSWORD}
+#       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+#       OPENROUTER_MODEL: openrouter/free
+#     timeout: 300
+#     workdir: ${MY_REPOS}/Documents/github/auto-resume/bizdev-agent
+  camofox-browser:
+#     enabled: false
+#     args:
+#       - mcp_server.py
+#     command: python
+#     timeout: 300
+#     workdir: ${MY_REPOS}\Documents\github\camofox-browser
+  camoufox-enhanced:
+#     enabled: false
+#     args:
+#       - enhanced_mcp_server.py
+#     command: python
+#     timeout: 300
+#     workdir: ${MY_REPOS}/Documents/github/camofox-browser
+  chrome-devtools-mcp:
+    args:
+      - -y
+      - chrome-devtools-mcp@latest
+    command: npx
+    timeout: 120
+  context7-mcp:
+    args:
+      - -y
+      - '@upstash/context7-mcp@latest'
+    command: npx
+    timeout: 120
+  depwire:
+#     enabled: false
+#     args:
+#       - mcp
+#       - --stdio
+#     command: depwire
+#     env:
+#       NODE_OPTIONS: --no-warnings
+#     timeout: 300
+  gbrain:
+#     args:
+#       - serve
+#     command: gbrain
+#     env:
+#       OPENAI_API_KEY: ${DEEPSEEK_API_KEY}
+#       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+#       PATH: ${USER_HOME}/.bun/bin;${USER_HOME}/AppData/Roaming/npm;${PATH}
+#     timeout: 300
+  geo-tracker:
+    args:
+      - ${USER_HOME}/AppData/Local/hermes/skills/productivity/geo-tracker/scripts/geo_tracker_server.py
+    command: python
+    timeout: 120
+  git-stars:
+#     enabled: false
+#     args:
+#       - -m
+#       - app.main
+#     command: ${MY_REPOS}\Documents\github\git-mcp\services\github-star-intelligence-mcp\.venv\Scripts\python.exe
+#     env:
+#       DATABASE_URL: sqlite+aiosqlite:///./gitmcp.db
+#       GITHUB_TOKEN: ${GITHUB_TOKEN}
+#       PYTHONPATH: ${MY_REPOS}/Documents/github/git-mcp/services/github-star-intelligence-mcp
+#     timeout: 300
+#     workdir: ${MY_REPOS}\Documents\github\git-mcp\services\github-star-intelligence-mcp
+  github-mcp:
+#     command: ${MY_REPOS}/Documents/github/github-mcp-server/github-mcp-server
+#     enabled: false
+  gpt-researcher:
+#     enabled: false
+#     args:
+#       - server.py
+#     command: python
+#     env:
+#       OPENAI_API_KEY: ${OPENROUTER_API_KEY}
+#       OPENAI_BASE_URL: https://openrouter.ai/api/v1
+#       RETRIEVER: duckduckgo
+#       STRATEGIC_LLM: openrouter:qwen/qwen-2.5-72b-instruct
+#     timeout: 300
+#     workdir: ${MY_REPOS}\Documents\github\git-mcp\services\gptr-mcp
+  headroom:
+    args:
+      - mcp
+      - serve
+    command: headroom
+    env:
+      HEADROOM_PROXY_URL: http://127.0.0.1:8787
+    timeout: 300
+  hexstrike-standalone:
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/hexstrike-standalone-mcp.py
+#     command: python
+#     enabled: true
+  job-agent:
+#     enabled: false
+#     args:
+#       - ${MY_REPOS}/Documents/github/auto-resume/job-agent/mcp_server.py
+#     command: ${MY_REPOS}/Documents/github/auto-resume/job-agent/.venv/Scripts/python.exe
+#     env:
+#       PYTHONPATH: ""
+#       PYTHONNOUSERSITE: "1"
+#       DATABASE_URL: sqlite+aiosqlite:///./dev-job-agent.db
+#       GMAIL_SENDER_EMAIL: <your-email>@gmail.com
+#       GMAIL_SENDER_PASSWORD: ${GMAIL_APP_PASSWORD}
+#       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+#       OPENROUTER_MODEL: openrouter/free
+#     timeout: 120
+#     workdir: ${MY_REPOS}\Documents\github\auto-resume\job-agent
+  markitdown:
+    command: python
+    args:
+      - ${MY_REPOS}/Documents/github/_project/mcp/markitdown-mcp.py
+    enabled: true
+  markitdown-docs:
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/markitdown-mcp.py
+#     command: python
+#     enabled: false
+  openbb-finance:
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/openbb-finance-mcp.py
+#     command: ${USER_HOME}/AppData/Local/hermes/venvs/openbb-trading/Scripts/python.exe
+#     enabled: true
+  personal-intelligence:
+#     args:
+#       - -m
+#       - app.main
+#     command: python
+#     env:
+#       LLM_API_KEY: ${OPENROUTER_API_KEY}
+#       LLM_BASE_URL: https://openrouter.ai/api/v1
+#       LLM_MODEL: qwen/qwen-2.5-72b-instruct
+#       PIM_BIDI_PORT: '9239'
+#     timeout: 300
+#     workdir: ${MY_REPOS}/Documents/github/git-mcp/services/personal-intelligence-mcp
+  plane-mcp:
+#     enabled: false
+#     args:
+#       - exec
+#       - plane-mcp
+#       - python
+#       - -m
+#       - plane_mcp
+#     command: docker
+#     timeout: 120
+  playwright-mcp:
+    args:
+      - -y
+      - '@playwright/mcp'
+    command: npx
+    timeout: 120
+  postgres:
+    args:
+      - -y
+      - '@henkey/postgres-mcp-server'
+    command: npx
+    env:
+      POSTGRES_CONNECTION_STRING: ${POSTGRES_CONNECTION_STRING}
+      DATABASE_URL: ${DATABASE_URL}
+  remotion-docs:
+    args:
+      - -y
+      - '@remotion/mcp@latest'
+    command: npx
+    timeout: 120
+  remotion-render:
+#     enabled: false
+#     args:
+#       - -m
+#       - remotion_mcp.server
+#     command: python
+#     timeout: 600
+#     workdir: ${MY_REPOS}/Documents/github/yt-animations
+  tor-browser-mcp:
+#     enabled: false
+#     args:
+#       - -m
+#       - torbrowser_mcp
+#       - --tbb-root
+#       - ${USER_HOME}/TorBrowser
+#       - --output-dir
+#       - ${USER_HOME}/tor-browser-outputs
+#       - --geckodriver-path
+#       - ${USER_HOME}/tor-browser-mcp/bin/geckodriver.exe
+#       - --max-restarts
+#       - '10'
+#       - --restart-delay
+#       - '5.0'
+#       - --headless
+#     command: ${USER_HOME}/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe
+#     timeout: 300
+#     workdir: ${MY_REPOS}/Documents/github/tor-browser-mcp
+  tor-camoufox-bridge:
+#     args:
+#       - ${USER_HOME}/.hermes/scripts/tor_camoufox_bridge.py
+#     command: python
+#     timeout: 300
+  tradesignals:
+#     args:
+#       - ${MY_REPOS}/Documents/github/finance-team/signals-mcp/mcp_server.py
+#     command: python
+#     timeout: 120
+  trading-agents:
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/trading-agents-mcp.py
+#     command: python
+#     enabled: true
+  ultimate-firefox-mcp:
+#     args:
+#       - -m
+#       - ultimate_firefox_mcp.main
+#       - --protocol
+#       - auto
+#       - --port
+#       - '9239'
+#     command: python
+#     timeout: 300
+#     workdir: ${USER_HOME}\ultimate-firefox-mcp
+  spiderfoot:
+#     command: python
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/spiderfoot-mcp.py
+#     enabled: true
+  trading-signals:
+#     command: ${USER_HOME}/AppData/Local/hermes/venvs/openbb-trading/Scripts/python.exe
+#     args:
+#       - ${MY_REPOS}/Documents/github/_project/mcp/trading-signals-mcp.py
+#     enabled: true
+  healthy-food-filter:
+    command: python
+    args:
+      - -m
+      - healthy_food_filter.mcp_server
+    timeout: 120
+    auto_approve:
+      - check_product
+      - lookup_brand
+      - scan_ingredients
+      - list_banned
+  btc-chain:
+#     command: ${USER_HOME}\btc-weakkey-toolkit\.venv\Scripts\python.exe
+#     args:
+#       - ${USER_HOME}\btc-weakkey-toolkit\mcp_servers\btc_chain_server.py
+#     timeout: 120
+#     workdir: ${USER_HOME}\btc-weakkey-toolkit
+  btc-attribution:
+#     command: ${USER_HOME}\btc-weakkey-toolkit\.venv\Scripts\python.exe
+#     args:
+#       - ${USER_HOME}\btc-weakkey-toolkit\mcp_servers\btc_attribution_server.py
+#     timeout: 120
+#     workdir: ${USER_HOME}\btc-weakkey-toolkit
+  btc-illbloom:
+#     command: ${USER_HOME}\btc-weakkey-toolkit\.venv\Scripts\python.exe
+#     args:
+#       - ${USER_HOME}\btc-weakkey-toolkit\mcp_servers\btc_illbloom_server.py
+#     timeout: 120
+#     workdir: ${USER_HOME}\btc-weakkey-toolkit
+  btc-sandbox:
+#     command: ${USER_HOME}\btc-weakkey-toolkit\.venv\Scripts\python.exe
+#     args:
+#       - ${USER_HOME}\btc-weakkey-toolkit\mcp_servers\btc_sandbox_server.py
+#     timeout: 300
+#     workdir: ${USER_HOME}\btc-weakkey-toolkit
+  open-selects:
+#     command: ${USER_HOME}/open-selects-mcp/.venv/Scripts/python.exe
+#     args:
+#       - -m
+#       - open_selects_mcp.server
+#       - --stdio
+#     env:
+#       OPEN_SELECTS_DB: ${USER_HOME}/.open-selects/index.sqlite
+#       OPEN_SELECTS_WORKDIR: ${USER_HOME}/open-selects-mcp/output
+#     connect_timeout: 120.0
+#     enabled: true
+platforms:
+  api_server:
+    enabled: true
+    extra:
+      host: 127.0.0.1
+      key: hermes-jippity-016867bc4f5f6223
+      port: 8642
+voice_fx:
+  ack_enabled: true
+  ack_phrases:
+    - Let me look into that.
+    - One moment.
+    - Checking on that now.
+    - Give me a sec.
+    - On it.
+  ambient_enabled: true
+  ambient_gain: 0.18
+  ambient_path: ''
+  duck_gain: 0.06
+  enabled: true
+  speech_gain: 1.0
+platform_toolsets:
+  discord:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - messaging
+    - moa
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - video
+    - vision
+    - web
+    - x_search
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - video
+    - vision
+    - web
+    - x_search
+known_plugin_toolsets:
+  cli:
+    - spotify
+  discord:
+    - spotify
+
+# ── Fallback Model ────────────────────────────────────────────────────
+# Automatic provider failover when primary is unavailable.
+# Uncomment and configure to enable. Triggers on rate limits (429),
+# overload (529), service errors (503), or connection failures.
+#
+# Supported providers:
+#   openrouter   (OPENROUTER_API_KEY)  — routes to any model
+#   openai-codex (OAuth — hermes auth) — OpenAI Codex
+#   nous         (OAuth — hermes auth) — Nous Portal
+#   zai          (ZAI_API_KEY)         — Z.AI / GLM
+#   kimi-coding  (KIMI_API_KEY)        — Kimi / Moonshot
+#   kimi-coding-cn (KIMI_CN_API_KEY)   — Kimi / Moonshot (China)
+#   minimax      (MINIMAX_API_KEY)     — MiniMax
+#   minimax-cn   (MINIMAX_CN_API_KEY)  — MiniMax (China)
+#   bedrock      (AWS IAM / boto3)     — AWS Bedrock (Converse API)
+#
+# For custom OpenAI-compatible endpoints, add base_url and key_env.
+#
+# fallback_model:
+#   provider: openrouter
+#   model: anthropic/claude-sonnet-4
+providers:
+  omniroute:
+    name: "omniroute"
+    base_url: "http://localhost:20128/v1"
+    key_env: "CUSTOM_PROVIDER_OMNIROUTE_KEY"
+
+plugins:
+  enabled:
+    - intelligence-routing

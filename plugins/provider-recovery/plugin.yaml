@@ -1,0 +1,11 @@
+name: provider-recovery
+version: 1.0.0
+description: >-
+  Silent provider self-healing for Hermes. Watches api_request_error and, when
+  OmniRoute (the primary router) is unreachable, quietly restarts it and lets
+  the agent's own retry loop recover the turn — the user just sees typing run
+  longer. If recovery fails, surfaces ONE short, specific escalation message
+  instead of the generic "model provider failed" envelope. Emergency tiers
+  (CLIProxyAPI pool, local Ollama) are handled by the provider-guardian daemon
+  and the fallback_providers chain.
+author: the operator / Hermes

@@ -1,0 +1,88 @@
+# Local Supabase Docker Compose (GoTrue-free variant)
+# Ports remapped to avoid conflicts with other containers.
+# The stack: Postgres → PostgREST → Kong → App
+# Studio is optional; meta is required for Studio.
+
+# Strategy: Standard postgres + app-level auth (no GoTrue).
+# Use with: NEXT_PUBLIC_SUPABASE_URL=http://localhost:44444
+#           SUPABASE_SERVICE_ROLE_KEY=<key>
+#           NEXT_PUBLIC_SUPABASE_ANON_KEY=<key>
+
+services:
+  db:
+    image: postgres:15
+    container_name: supabase-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "54322:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  postgrest:
+    image: postgrest/postgrest:v12.2.4
+    container_name: supabase-postgrest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: postgres://postgres:postgres@db:5432/postgres
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: postgres       # bypass RLS in dev
+      PGRST_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://localhost:44444
+    ports:
+      - "54324:3000"                      # direct access (debug)
+
+  meta:
+    image: supabase/postgres-meta:v0.68.0
+    container_name: supabase-meta
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: db
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: postgres
+      PG_META_DB_USER: postgres
+      PG_META_DB_PASSWORD: postgres
+    ports:
+      - "54320:8080"
+
+  kong:
+    image: kong:3.4
+    container_name: supabase-kong
+    depends_on:
+      - postgrest
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /var/lib/kong/kong.yml
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl
+      KONG_NGINX_PROXY_PROXY_BUFFERING: "off"
+    ports:
+      - "44444:8000"
+    volumes:
+      - ./kong.yml:/var/lib/kong/kong.yml:ro
+
+  studio:
+    image: supabase/studio:latest
+    container_name: supabase-studio
+    environment:
+      SUPABASE_URL: http://kong:8000
+      STUDIO_PG_META_URL: http://meta:8080
+    ports:
+      - "54323:3000"
+    depends_on:
+      - kong
+      - meta
+
+volumes:
+  db-data:

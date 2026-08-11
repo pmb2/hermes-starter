@@ -1,0 +1,16 @@
+{
+  "_comment": "Channel representative mapping. Each channel has a default 'representative' agent.",
+  "_comment2": "When the operator messages in a channel without @mention, the representative responds.",
+  "_comment3": "When the operator uses @mention, the @mentioned agent responds instead.",
+  "_comment4": "Omitting a channel or setting rep to null means no auto-response (reply only if @mentioned).",
+
+  "#general": "chief-of-staff",
+  "#admin": "chief-of-staff",
+  "#dev": "development-lead",
+  "#engineering": "development-lead",
+  "#intel": "intelligence-lead",
+  "#research": "research-lead",
+  "#ops": "operations-lead",
+  "#security": "security-lead",
+  "#creative": "creative-lead"
+}
