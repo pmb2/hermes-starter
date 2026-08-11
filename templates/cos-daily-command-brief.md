@@ -1,6 +1,6 @@
 # Daily Command Brief — {day_of_week} {month} {day} {year}
 
-> Compiled by Chief of Staff (Aegis) at {time}
+> Compiled by Chief of Staff (the chief-of-staff agent) at {time}
 > Sources: {N} council lead summaries
 
 ---

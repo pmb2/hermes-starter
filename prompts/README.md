@@ -12,7 +12,7 @@ personal names, companies, or market specifics.
 | `cos-pulse-check.md` | Periodic system/pulse health check |
 | `cos-open-loop-check.md` | Sweep unfinished work items across sessions |
 | `cos-channel-scan.md` | Scan channel activity and summarize |
-| `lead-daily-*.md` (dev, ops, finance, health, intel, cyber, legal, revenue, betting) | Vertical daily scans — structure adapts to any domain |
+| `lead-daily-*.md` (dev, ops, finance, health, intel, cyber, legal, revenue) | Vertical daily scans — structure adapts to any domain |
 
 The `lead-daily-*` set is a namespaced pattern: take one, rename the namespace, and
 you have a daily scan for any vertical you care about.

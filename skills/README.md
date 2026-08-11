@@ -36,7 +36,6 @@ skills/
 ├── smart-home/             # philips hue
 ├── social-media/           # brand manager, postiz automation
 ├── software-development/   # MCP building, TDD, debugging, voice agents, browser tools
-├── sports-betting/         # ticket evaluation, scan patterns
 └── web-development/        # static sites, service sites, gsap, scroll-world
 ```
 
