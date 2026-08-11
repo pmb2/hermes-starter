@@ -20,6 +20,11 @@ channel personas, cron jobs, and (optionally) a Buzz bridge. Time: **~30 minutes
 > (`http://localhost:20128/v1`) with an OpenRouter/DeepSeek fallback chain. If you don't
 > run a local router, just change `model.base_url` + `model.api_key` (or set
 > `OPENROUTER_API_KEY` in `.env` and switch `model.provider` to `openrouter`).
+>
+> **Platform note:** the author runs Windows + git-bash, so `scripts/*.sh` are written
+> for that. On Linux/macOS they run as-is (bash); only paths in `.env` and
+> `config.example.yaml` (e.g. `C:\Users\<you>\AppData\Local\hermes`) need the native
+> equivalent (`~/.local/share/hermes` on Linux). Everything else is portable.
 
 ---
 
